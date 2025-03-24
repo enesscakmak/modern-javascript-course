@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const library = [
+				{
+					title: "deneme",
+					author: "deneme",
+					status: {
+						own: "true",
+						reading: "false",
+						read: "false",
+					},
+				},
+				{
+					title: "deneme",
+					author: "deneme",
+					status: {
+						own: "true",
+						reading: "false",
+						read: "false",
+					},
+				},
+				{
+					title: "deneme",
+					author: "deneme",
+					status: {
+						own: "true",
+						reading: "false",
+						read: "false",
+					},
+				},
+			];
+			library[0].status.read = true;
+			library[1].status.read = true;
+			library[2].status.read = true;
+
+			library[0].title = ["firstBook"];
+
+			console.log(library);
+
+			const libraryJson = JSON.stringify(library);
+
+			console.log(libraryJson);
+		</script>
+	</body>
+</html>
