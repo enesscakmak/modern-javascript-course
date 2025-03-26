@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function insertAfter(newElement, element) {
+				element.parentElement.insertBefore(
+					newElement,
+					element.nextSibling
+				);
+			}
+
+			const li = document.createElement("li");
+			li.textContent = "Insert Me After!";
+
+			// Existing element to insert after
+			const firstItem = document.querySelector("li:first-child");
+
+			// Our custom function
+			insertAfter(li, firstItem);
+		</script>
+	</body>
+</html>
