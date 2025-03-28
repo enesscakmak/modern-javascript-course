@@ -1,12 +1,15 @@
 const add_item = document.getElementById("add-btn");
+const item_input = document.getElementById("item-input");
 const item_list_ul = document.getElementById("item-list");
 const remove_button = document.getElementsByClassName("remove-item");
 
-item_list_ul.addEventListener("click", function (e) {
+add_item.addEventListener("click", function (e) {
 	e.preventDefault();
-	console.log(e.target.parentElement.parentElement);
 
-	if (e.target.closest("button").classList.contains("btn")) {
+	if (
+		e.target.closest("button").classList.contains("btn") &&
+		item_input.value.length > 0
+	) {
 		const ul = document.getElementById("item-list");
 		const li = document.createElement("li");
 		const button = document.createElement("button");
@@ -20,9 +23,13 @@ item_list_ul.addEventListener("click", function (e) {
 		button.appendChild(i);
 		ul.appendChild(li);
 	}
+});
+
+item_list_ul.addEventListener("click", function (e) {
+	e.preventDefault();
+	console.log(e.target.parentElement.parentElement);
+
 	if (e.target.closest("button").classList.contains("remove-item")) {
 		e.target.closest("li").remove();
 	}
 });
-
-console.log(remove_button);
