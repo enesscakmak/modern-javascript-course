@@ -1,7 +1,7 @@
 const add_item = document.getElementById("add-btn");
 const item_input = document.getElementById("item-input");
 const item_list_ul = document.getElementById("item-list");
-const remove_button = document.getElementsByClassName("remove-item");
+const clear_button = document.getElementById("clear");
 
 add_item.addEventListener("click", function (e) {
 	e.preventDefault();
@@ -31,5 +31,13 @@ item_list_ul.addEventListener("click", function (e) {
 
 	if (e.target.closest("button").classList.contains("remove-item")) {
 		e.target.closest("li").remove();
+	}
+});
+
+clear_button.addEventListener("click", function (e) {
+	console.log("asda");
+
+	while (item_list_ul.childElementCount > 0) {
+		item_list_ul.innerHTML = "";
 	}
 });
