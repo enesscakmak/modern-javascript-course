@@ -2,6 +2,8 @@ const add_item = document.getElementById("add-btn");
 const item_input = document.getElementById("item-input");
 const item_list_ul = document.getElementById("item-list");
 const clear_button = document.getElementById("clear");
+const filter_item = document.getElementById("filter");
+const ul_li = document.getElementsByTagName("li");
 
 add_item.addEventListener("click", function (e) {
 	e.preventDefault();
@@ -39,5 +41,17 @@ clear_button.addEventListener("click", function (e) {
 
 	while (item_list_ul.childElementCount > 0) {
 		item_list_ul.innerHTML = "";
+	}
+});
+
+filter_item.addEventListener("keyup", function (e) {
+	const searchText = e.target.value.toUpperCase();
+
+	for (i = 0; i < ul_li.length; i++) {
+		if (ul_li[i].textContent.toUpperCase().indexOf(searchText) !== -1) {
+			ul_li[i].style.display = "";
+		} else {
+			ul_li[i].style.display = "none";
+		}
 	}
 });
