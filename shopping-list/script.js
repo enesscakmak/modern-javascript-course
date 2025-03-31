@@ -3,7 +3,6 @@ const item_input = document.getElementById("item-input");
 const item_list_ul = document.getElementById("item-list");
 const clear_button = document.getElementById("clear");
 const filter_item = document.getElementById("filter");
-const ul_li = document.getElementsByTagName("li");
 
 window.addEventListener("load", (e) => {
 	loadItems();
@@ -27,23 +26,21 @@ add_item.addEventListener("click", function (e) {
 });
 
 clear_button.addEventListener("click", function (e) {
-	console.log("asda");
-
-	while (item_list_ul.childElementCount > 0) {
-		item_list_ul.innerHTML = "";
-	}
+	item_list_ul.innerHTML = "";
+	localStorage.removeItem("items");
 });
 
 filter_item.addEventListener("keyup", function (e) {
 	const searchText = e.target.value.toUpperCase();
+	const ul_li = document.querySelectorAll("#item-list-li");
 
-	for (i = 0; i < ul_li.length; i++) {
-		if (ul_li[i].textContent.toUpperCase().indexOf(searchText) !== -1) {
-			ul_li[i].style.display = "";
+	ul_li.forEach(function (li) {
+		if (li.textContent.toUpperCase().includes(searchText)) {
+			li.computedStyleMap.display = "";
 		} else {
-			ul_li[i].style.display = "none";
+			li.style.display = "none";
 		}
-	}
+	});
 });
 
 function saveLocal() {
