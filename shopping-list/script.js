@@ -5,35 +5,25 @@ const clear_button = document.getElementById("clear");
 const filter_item = document.getElementById("filter");
 const ul_li = document.getElementsByTagName("li");
 
+window.addEventListener("load", (e) => {
+	loadItems();
+});
+
 add_item.addEventListener("click", function (e) {
 	e.preventDefault();
 
-	if (
-		e.target.closest("button").classList.contains("btn") &&
-		item_input.value.length > 0
-	) {
-		const ul = document.getElementById("item-list");
-		const li = document.createElement("li");
-		const button = document.createElement("button");
-		const i = document.createElement("i");
+	const newItem = document.getElementById("item-input").value;
+	if (newItem === "") return;
 
-		button.classList.add("remove-item", "btn-link", "text-red");
-		i.classList.add("fa-solid", "fa-xmark");
+	createListItem(newItem);
 
-		li.textContent = document.getElementById("item-input").value;
-		li.appendChild(button);
-		button.appendChild(i);
-		ul.appendChild(li);
-	}
-});
+	//upddate local storage
+	let items = localStorage.getItem("items")
+		? JSON.parse(localStorage.getItem("items"))
+		: [];
 
-item_list_ul.addEventListener("click", function (e) {
-	e.preventDefault();
-	console.log(e.target.parentElement.parentElement);
-
-	if (e.target.closest("button").classList.contains("remove-item")) {
-		e.target.closest("li").remove();
-	}
+	items.push(newItem);
+	localStorage.setItem("items", JSON.stringify(items));
 });
 
 clear_button.addEventListener("click", function (e) {
@@ -55,3 +45,42 @@ filter_item.addEventListener("keyup", function (e) {
 		}
 	}
 });
+
+function saveLocal() {
+	let items = localStorage.getItem("items")
+		? JSON.parse(localStorage.getItem("items"))
+		: [];
+
+	const newItem = document.getElementById("item-input").value;
+	items.push(newItem);
+
+	localStorage.setItem("items", JSON.stringify(items));
+
+	console.log(items);
+}
+
+function createListItem(itemText) {
+	const li = document.createElement("li");
+	li.textContent = itemText;
+
+	// Remove button
+	const button = document.createElement("button");
+	button.classList.add("remove-item", "btn-link", "text-red");
+
+	const i = document.createElement("i");
+	i.classList.add("fa-solid", "fa-xmark");
+
+	button.appendChild(i);
+	li.appendChild(button);
+
+	// append to ul
+	document.getElementById("item-list").appendChild(li);
+}
+
+function loadItems() {
+	let items = localStorage.getItem("items")
+		? JSON.parse(localStorage.getItem("items"))
+		: [];
+
+	items.forEach(createListItem);
+}
