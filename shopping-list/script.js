@@ -69,9 +69,22 @@ function createListItem(itemText) {
 
 	button.appendChild(i);
 	li.appendChild(button);
+	item_list_ul.appendChild(li);
 
-	// append to ul
-	document.getElementById("item-list").appendChild(li);
+	button.addEventListener("click", function () {
+		li.remove();
+		removeItemFromStorage(itemText);
+	});
+}
+
+function removeItemFromStorage(itemText) {
+	let items = localStorage.getItem("items")
+		? JSON.parse(localStorage.getItem("items"))
+		: [];
+
+	items = items.filter((item) => item !== itemText);
+
+	localStorage.setItem("items", JSON.stringify(items));
 }
 
 function loadItems() {
