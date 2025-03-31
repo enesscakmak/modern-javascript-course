@@ -32,11 +32,12 @@ clear_button.addEventListener("click", function (e) {
 
 filter_item.addEventListener("keyup", function (e) {
 	const searchText = e.target.value.toUpperCase();
-	const ul_li = document.querySelectorAll("#item-list-li");
+
+	const ul_li = document.querySelectorAll("li");
 
 	ul_li.forEach(function (li) {
 		if (li.textContent.toUpperCase().includes(searchText)) {
-			li.computedStyleMap.display = "";
+			li.style.display = "";
 		} else {
 			li.style.display = "none";
 		}
