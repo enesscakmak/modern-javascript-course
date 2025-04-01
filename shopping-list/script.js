@@ -3,6 +3,8 @@ const item_input = document.getElementById("item-input");
 const item_list_ul = document.getElementById("item-list");
 const clear_button = document.getElementById("clear");
 const filter_item = document.getElementById("filter");
+const ul_li = document.querySelectorAll("li");
+let editingItem = null;
 
 window.addEventListener("load", (e) => {
 	loadItems();
@@ -10,19 +12,22 @@ window.addEventListener("load", (e) => {
 
 add_item.addEventListener("click", function (e) {
 	e.preventDefault();
-
 	const newItem = document.getElementById("item-input").value;
 	if (newItem === "") return;
 
-	createListItem(newItem);
+	if (document.getElementById("add-btn").classList.contains("update-btn")) {
+		update_item(editingItem);
+	} else {
+		createListItem(newItem);
 
-	//upddate local storage
-	let items = localStorage.getItem("items")
-		? JSON.parse(localStorage.getItem("items"))
-		: [];
+		//upddate local storage
+		let items = localStorage.getItem("items")
+			? JSON.parse(localStorage.getItem("items"))
+			: [];
 
-	items.push(newItem);
-	localStorage.setItem("items", JSON.stringify(items));
+		items.push(newItem);
+		localStorage.setItem("items", JSON.stringify(items));
+	}
 });
 
 clear_button.addEventListener("click", function (e) {
@@ -33,9 +38,7 @@ clear_button.addEventListener("click", function (e) {
 filter_item.addEventListener("keyup", function (e) {
 	const searchText = e.target.value.toUpperCase();
 
-	const ul_li = document.querySelectorAll("li");
-
-	ul_li.forEach(function (li) {
+	ul_li.forEach((li) => {
 		if (li.textContent.toUpperCase().includes(searchText)) {
 			li.style.display = "";
 		} else {
@@ -43,6 +46,38 @@ filter_item.addEventListener("keyup", function (e) {
 		}
 	});
 });
+
+document.getElementById("item-list").addEventListener("click", function (e) {
+	document.getElementById("item-input").value = e.target.textContent;
+	document.getElementById("add-btn").textContent = "Update Item";
+	document.getElementById("add-btn").classList.add("update-btn");
+	if (e.target.tagName === "LI") {
+		editingItem = e.target;
+	}
+});
+
+function update_item(element) {
+	let items = localStorage.getItem("items")
+		? JSON.parse(localStorage.getItem("items"))
+		: [];
+
+	const oldValue = editingItem.textContent;
+	const newValue = document.getElementById("item-input").value;
+
+	let index = items.indexOf(oldValue);
+	if (index !== -1) {
+		items[index] = newValue;
+	}
+
+	localStorage.setItem("items", JSON.stringify(items));
+
+	editingItem.firstChild.textContent = newValue;
+
+	document.getElementById("add-btn").classList.remove("update-btn");
+	editingItem = null;
+	document.getElementById("add-btn").textContent = "+ Add Item";
+	document.getElementById("item-input").value = "";
+}
 
 function saveLocal() {
 	let items = localStorage.getItem("items")
